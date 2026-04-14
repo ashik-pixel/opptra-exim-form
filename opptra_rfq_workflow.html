@@ -2914,6 +2914,16 @@ function doGet(e) {
             const submissionId = 'SUB-' + Date.now();
             document.getElementById('subRefId').textContent = submissionId;
 
+            // Debug: log file payload before sending
+            console.log('[OPPTRA] filesPayload keys:', Object.keys(filesPayload));
+            Object.entries(filesPayload).forEach(([type, files]) => {
+                console.log('[OPPTRA] ' + type + ': ' + files.length + ' file(s), base64 size: ' + (files[0]?.data?.length || 0) + ' chars');
+            });
+            if (Object.keys(filesPayload).length === 0) {
+                console.warn('[OPPTRA] No files in payload — fileObjects may be empty');
+                console.log('[OPPTRA] formData.fileObjects:', JSON.stringify(Object.fromEntries(Object.entries(formData.fileObjects).map(([k,v]) => [k, v.length]))));
+            }
+
             // Send to Google Sheets + Drive (fire and forget — no-cors)
             sendToGoogleSheets(filesPayload);
 

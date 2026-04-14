@@ -20,7 +20,7 @@
  */
 
 const SHEET_NAME   = "Sheet1";
-const NOTIFY_EMAIL = "your-email@opptra.com"; // ← CHANGE THIS to your EXIM team email
+const NOTIFY_EMAIL = "ashik@opptra.com";
 const DRIVE_FOLDER_NAME = "Opptra EXIM Submissions"; // Root folder in My Drive
 
 // ─── doPost: receives form submission ──────────────────────────────────────
