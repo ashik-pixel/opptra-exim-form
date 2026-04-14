@@ -29,10 +29,16 @@ function doPost(e) {
     const raw  = e.postData.contents;
     const data = JSON.parse(raw);
 
+    Logger.log('Received payload keys: ' + Object.keys(data).join(', '));
+    Logger.log('Payload size (chars): ' + raw.length);
+
     // ── 1. Save files to Google Drive ─────────────────────────────────────
     let folderUrl = '';
     const filesPayload = data.files || {};
     const hasFiles = Object.values(filesPayload).some(arr => arr && arr.length > 0);
+
+    Logger.log('hasFiles: ' + hasFiles);
+    Logger.log('files keys: ' + Object.keys(filesPayload).join(', '));
 
     if (hasFiles) {
       // Get or create the root submissions folder
