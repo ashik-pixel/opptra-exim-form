@@ -1365,138 +1365,23 @@
             display: none;
         }
 
-        /* SETUP BANNER */
-        .setup-banner {
+        /* SHEETS STATUS BAR */
+        .sheets-status-bar {
             background: #131A48;
-            border-bottom: 3px solid #FF5800;
-            overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.4s ease;
-            max-height: 500px;
-        }
-        .setup-banner.collapsed {
-            max-height: 0;
-            border-bottom: none;
-        }
-        .setup-inner {
-            max-width: 780px;
-            margin: 0 auto;
-            padding: 18px 20px;
-            position: relative;
-        }
-        .setup-title {
-            font-family: 'Spectral', Georgia, serif;
-            font-size: 15px;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .setup-badge {
-            font-size: 10px;
-            background: #FF5800;
-            color: #fff;
-            padding: 3px 8px;
-            border-radius: 20px;
-            font-family: 'Raleway', sans-serif;
-            font-weight: 600;
-        }
-        .setup-desc {
-            font-size: 12.5px;
-            color: rgba(255,255,255,.55);
-            margin-bottom: 14px;
-        }
-        .setup-desc a {
-            color: #FF5800;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-        .setup-row {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .setup-row input {
-            flex: 1;
-            min-width: 280px;
-            padding: 10px 14px;
-            border-radius: 6px;
-            border: 1px solid rgba(255,255,255,.2);
-            background: rgba(255,255,255,.08);
-            color: #fff;
-            font-family: 'Raleway', sans-serif;
-            font-size: 13px;
-            outline: none;
-        }
-        .setup-row input::placeholder {
-            color: rgba(255,255,255,.3);
-        }
-        .setup-row input:focus {
-            border-color: #FF5800;
-            background: rgba(255,255,255,.12);
-        }
-        .setup-save-btn {
-            padding: 10px 20px;
-            border-radius: 6px;
-            border: none;
-            background: #FF5800;
-            color: #fff;
-            font-family: 'Raleway', sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        .setup-save-btn:hover {
-            background: #FF8C4F;
-        }
-        .setup-saved {
-            font-size: 12px;
-            color: #7ee89a;
-            display: none;
-            align-items: center;
-            gap: 4px;
-        }
-        .setup-saved.show {
-            display: flex;
-        }
-        .setup-collapse {
-            position: absolute;
-            right: 20px;
-            top: 18px;
-            background: rgba(255,255,255,.1);
-            border: none;
-            color: rgba(255,255,255,.6);
-            border-radius: 20px;
-            padding: 5px 14px;
-            font-size: 11px;
-            cursor: pointer;
-            font-family: 'Raleway', sans-serif;
-        }
-        .setup-collapse:hover {
-            background: rgba(255,255,255,.2);
-            color: #fff;
-        }
-        .setup-status {
-            margin-top: 10px;
+            border-bottom: 2px solid #1A6A3A;
+            padding: 7px 32px;
             display: flex;
             align-items: center;
             gap: 8px;
+            font-size: 12px;
+            color: rgba(255,255,255,.6);
         }
-        .setup-dot {
-            width: 8px;
-            height: 8px;
+        .sheets-status-dot {
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
-            background: #C04500;
-        }
-        .setup-dot.connected {
-            background: #1A6A3A;
-        }
-        .setup-status-text {
-            font-size: 11.5px;
-            color: rgba(255,255,255,.5);
+            background: #7ee89a;
+            flex-shrink: 0;
         }
 
         /* GUIDE MODAL */
@@ -1648,28 +1533,10 @@
     </style>
 </head>
 <body>
-    <!-- SETUP BANNER -->
-    <div class="setup-banner" id="setupBanner">
-        <div class="setup-inner">
-            <div class="setup-title">
-                Connect to Google Sheets
-                <span class="setup-badge">ONE-TIME SETUP</span>
-            </div>
-            <div class="setup-desc">
-                Paste your Google Apps Script URL below so form submissions save to your Sheet automatically.
-                <a onclick="openGuide()">How to set this up &rarr;</a>
-            </div>
-            <div class="setup-row">
-                <input type="text" id="sheetsUrl" placeholder="Paste your Apps Script Web App URL  e.g. https://script.google.com/macros/s/.../exec">
-                <button class="setup-save-btn" onclick="saveSheetUrl()">Save & Test</button>
-                <span class="setup-saved" id="setupSaved">&#10003; Connected</span>
-            </div>
-            <div class="setup-status">
-                <div class="setup-dot" id="setupDot"></div>
-                <span class="setup-status-text" id="setupStatusText">Not connected &mdash; paste your URL above</span>
-            </div>
-            <button class="setup-collapse" onclick="collapseSetup()">Hide setup &uarr;</button>
-        </div>
+    <!-- SHEETS STATUS BAR -->
+    <div class="sheets-status-bar">
+        <div class="sheets-status-dot"></div>
+        Connected to Google Sheets &amp; Drive &mdash; submissions are saved automatically
     </div>
 
     <!-- HEADER -->
@@ -2660,6 +2527,9 @@ function doGet(e) {
         };
 
         // STATE
+        // Hardcoded endpoint — no setup required
+        const SHEETS_ENDPOINT = 'https://script.google.com/macros/s/AKfycbxoa71sQtEBBArrud7WJ6rPGh6uwkZ2lajwjOrmNM_ZccSWlIlonubDhCDbxqudA7Q2/exec';
+
         let formData = {
             brandName: '',
             readinessDate: '',
@@ -2679,7 +2549,8 @@ function doGet(e) {
             finalZipcode: '',
             mrpLabeling: '',
             exwAddress: null,
-            files: {}
+            files: { ci: [], pl: [], msds: [], un38: [], iip: [] },
+            fileObjects: { ci: [], pl: [], msds: [], un38: [], iip: [] }
         };
 
         let currentStep = 1;
@@ -2904,18 +2775,40 @@ function doGet(e) {
 
         function displayFile(fileType, file) {
             if (!formData.files[fileType]) formData.files[fileType] = [];
+            if (!formData.fileObjects[fileType]) formData.fileObjects[fileType] = [];
+
             formData.files[fileType].push(file.name);
+            formData.fileObjects[fileType].push(file);
 
             const listId = `${fileType}-list`;
             const list = document.getElementById(listId);
             const item = document.createElement('div');
             item.className = 'file-item';
+            const idx = formData.fileObjects[fileType].length - 1;
             item.innerHTML = `<span>${file.name}</span>
-                <button class="file-remove" onclick="this.parentElement.remove()">✕</button>`;
+                <button class="file-remove" onclick="removeFile('${fileType}', ${idx}, this)">✕</button>`;
             list.appendChild(item);
 
             // Reset input
             document.getElementById(`${fileType}-input`).value = '';
+        }
+
+        function removeFile(fileType, idx, btn) {
+            formData.files[fileType].splice(idx, 1);
+            formData.fileObjects[fileType].splice(idx, 1);
+            btn.parentElement.remove();
+        }
+
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const base64 = reader.result.split(',')[1];
+                    resolve({ name: file.name, mimeType: file.type || 'application/octet-stream', data: base64 });
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
         }
 
         // FILE UPLOAD AREA CLICK
@@ -2987,42 +2880,50 @@ function doGet(e) {
             }
         }
 
-        function submitToExim() {
-            if (validateStep1()) {
-                // Collect form data
-                formData.brandName = document.getElementById('brandName').value;
-                formData.readinessDate = document.getElementById('readinessDate').value;
-                formData.sourcePort = document.getElementById('sourcePort').value;
-                formData.destPort = document.getElementById('destPort').value;
-                formData.grossWeight = document.getElementById('grossWeight').value;
-                formData.netWeight = document.getElementById('netWeight').value;
-                formData.cbm = document.getElementById('cbm').value;
-                formData.cooCountry = document.getElementById('cooCountry').value;
-                formData.cooOther = document.getElementById('cooOther').value;
-                formData.finalZipcode = document.getElementById('finalZipcode').value;
+        async function submitToExim() {
+            if (!validateStep1()) return;
 
-                // Generate submission ID
-                const submissionId = 'SUB-' + Date.now();
-                document.getElementById('subRefId').textContent = submissionId;
+            // Collect form data
+            formData.brandName = document.getElementById('brandName').value;
+            formData.readinessDate = document.getElementById('readinessDate').value;
+            formData.sourcePort = document.getElementById('sourcePort').value;
+            formData.destPort = document.getElementById('destPort').value;
+            formData.grossWeight = document.getElementById('grossWeight').value;
+            formData.netWeight = document.getElementById('netWeight').value;
+            formData.cbm = document.getElementById('cbm').value;
+            formData.cooCountry = document.getElementById('cooCountry').value;
+            formData.cooOther = document.getElementById('cooOther').value;
+            formData.finalZipcode = document.getElementById('finalZipcode').value;
 
-                // Send to Google Sheets
-                if (sheetsEndpoint) {
-                    sendToGoogleSheets().then(result => {
-                        if (result.skipped) return;
-                        if (result.ok) {
-                            showToast('Saved to Google Sheet');
-                        } else {
-                            showToast('Sheet save may have failed — check your Sheet');
-                        }
-                    });
+            // Disable button during processing
+            const btn = document.querySelector('#step-1 .btn-primary');
+            const originalText = btn.textContent;
+            btn.textContent = 'Saving…';
+            btn.disabled = true;
+
+            // Convert all uploaded files to base64
+            const filesPayload = {};
+            for (const type of ['ci', 'pl', 'msds', 'un38', 'iip']) {
+                const objects = formData.fileObjects[type] || [];
+                if (objects.length > 0) {
+                    filesPayload[type] = await Promise.all(objects.map(fileToBase64));
                 }
-
-                // Build summary
-                buildEximReview();
-
-                goToStep(2);
-                showToast('Submitted to EXIM for review');
             }
+
+            // Generate submission ID
+            const submissionId = 'SUB-' + Date.now();
+            document.getElementById('subRefId').textContent = submissionId;
+
+            // Send to Google Sheets + Drive (fire and forget — no-cors)
+            sendToGoogleSheets(filesPayload);
+
+            btn.textContent = originalText;
+            btn.disabled = false;
+
+            // Build summary and move to review step
+            buildEximReview();
+            goToStep(2);
+            showToast('Submitted — saving to Google Sheet & Drive…');
         }
 
         function goToStep(step) {
@@ -3361,39 +3262,7 @@ function doGet(e) {
         }
 
         // ============ GOOGLE SHEETS INTEGRATION ============
-        let sheetsEndpoint = '';
-
-        function saveSheetUrl() {
-            const url = document.getElementById('sheetsUrl').value.trim();
-            if (!url || !url.startsWith('https://script.google.com/')) {
-                showToast('Please paste a valid Apps Script URL');
-                return;
-            }
-            sheetsEndpoint = url;
-
-            // Test connection
-            document.querySelector('.setup-save-btn').textContent = 'Testing...';
-            fetch(url, { method: 'GET', mode: 'no-cors' })
-                .then(() => {
-                    document.getElementById('setupSaved').classList.add('show');
-                    document.getElementById('setupDot').classList.add('connected');
-                    document.getElementById('setupStatusText').textContent = 'Connected — submissions will save to your Google Sheet';
-                    document.querySelector('.setup-save-btn').textContent = 'Save & Test';
-                    showToast('Google Sheet connected successfully');
-                    setTimeout(() => document.getElementById('setupSaved').classList.remove('show'), 3000);
-                })
-                .catch(() => {
-                    document.querySelector('.setup-save-btn').textContent = 'Save & Test';
-                    showToast('Could not verify — URL saved anyway. It may still work.');
-                    sheetsEndpoint = url;
-                    document.getElementById('setupDot').classList.add('connected');
-                    document.getElementById('setupStatusText').textContent = 'URL saved — will attempt on submission';
-                });
-        }
-
-        function collapseSetup() {
-            document.getElementById('setupBanner').classList.add('collapsed');
-        }
+        // Endpoint is hardcoded — no setup required
 
         function openGuide() {
             document.getElementById('guideOverlay').classList.add('show');
@@ -3483,19 +3352,16 @@ function doGet(e) {
             };
         }
 
-        function sendToGoogleSheets() {
-            if (!sheetsEndpoint) return Promise.resolve({ skipped: true });
-
+        function sendToGoogleSheets(filesPayload) {
             const data = collectAllFormData();
+            data.files = filesPayload || {};
 
-            return fetch(sheetsEndpoint, {
+            fetch(SHEETS_ENDPOINT, {
                 method: 'POST',
                 mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'text/plain' },
                 body: JSON.stringify(data)
-            })
-            .then(() => ({ ok: true }))
-            .catch(err => ({ ok: false, error: err.message }));
+            }).catch(() => {});  // silent fail — no-cors gives no readable response
         }
 
         // TOAST
